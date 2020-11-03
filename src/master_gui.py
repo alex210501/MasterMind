@@ -9,13 +9,14 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.image import Image
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.spinner import Spinner
+from kivy.uix.popup import Popup
 
 pseudo_format = "Pseudo: {}"
 best_score_format = "{}: ({})"
 color_list = ["red", "blue", "yellow", "green", "white", "black"]
-color_image = {"red": 'Pictures/red_circle.png', "blue": 'Pictures/blue_circle.png',
-                 "yellow": 'Pictures/yellow_circle.png',"green": 'Pictures/green_circle.png',
-                  "white": 'Pictures/white_circle.png', "black": 'Pictures/black_circle.png'}
+color_image = {"No color": "Pictures/red_cross.png", "red": 'Pictures/red_circle.png', "blue": 'Pictures/blue_circle.png',
+                "yellow": 'Pictures/yellow_circle.png',"green": 'Pictures/green_circle.png',
+                "white": 'Pictures/white_circle.png', "black": 'Pictures/black_circle.png'}
 
 
 class MyButton(ButtonBehavior, Image):
@@ -44,7 +45,6 @@ class MasterGui(App):
         """
             Create the screen manager
         """
-        # self.prepare_image()
         self.__manager = ScreenManager()
         self.__manager.add_widget(self.build_start())
         self.__manager.add_widget(self.build_options())
@@ -86,8 +86,6 @@ class MasterGui(App):
 
         return screen
 
-
-
     def build_options(self):
         """
             Build the options screen
@@ -99,8 +97,8 @@ class MasterGui(App):
         title = Label(text="Options",
                       font_size=30, halign="center", pos_hint={'y': 0.3})
         # Button(text="Back", size_hint=(.2, 1))
-        back_button = MyButton(
-            source="Pictures/left_arrow.png", size_hint=(.2, 1))
+        back_button = MyButton(source="Pictures/left_arrow.png",
+                                size_hint=(.2, 1))
         back_button.bind(on_press=self.switch_to_start)
         # button_layout = BoxLayout(orientation="horizontal")
         # self.__button_start = Button(text='Start')
@@ -126,8 +124,8 @@ class MasterGui(App):
                       font_size=15, pos_hint={'y': 0.1})
         self.best_score_output = Label(text=f"No best score",
                               font_size=15, pos_hint={'y': 0.1})
-        back_button = back_button = MyButton(
-            source="Pictures/left_arrow.png", size_hint=(.2, 1), pos_hint = {'y': 0.1})
+        back_button = back_button = MyButton(source="Pictures/left_arrow.png",
+                                            size_hint=(.2, 1), pos_hint = {'y': 0.1})
         back_button.bind(on_press=self.switch_to_start)
 
         up_layout.add_widget(back_button)
@@ -156,7 +154,7 @@ class MasterGui(App):
 
         for row in range(self.__grid_rows):
             self.__mastermind_layout.append(BoxLayout(
-                                            orientation="horizontal"))
+                                            orientation="horizontal", padding=(0, 5)))
             left_layout.add_widget(self.__mastermind_layout[row])
             self.__good_position.append(Label(text=""))
             self.__good_color.append(Label(text=""))
@@ -174,7 +172,7 @@ class MasterGui(App):
         bottom_layout = BoxLayout(orientation="horizontal", size_hint=(1, 0.1))
 
         for column in range(self.__grid_columns):
-            self.__color_spinner.append(Spinner(text="", values=color_list, size_hint=(.4, 1)))
+            self.__color_spinner.append(Spinner(text="No color", values=color_list, size_hint=(.4, 1)))
             bottom_layout.add_widget(self.__color_spinner[column])
             self.__color_spinner[column].bind(text=self.change_boll_color)
         
@@ -226,7 +224,7 @@ class MasterGui(App):
         # Create master button
         for column in range(self.__grid_columns):
             self.__master_bool[0].append(
-                MyButton(source= color_image['white']))
+                MyButton(source=color_image['No color']))
             self.__mastermind_layout[0].add_widget(
                 self.__master_bool[0][column])
         
@@ -236,18 +234,31 @@ class MasterGui(App):
         index = self.__color_spinner.index(source)
         self.__master_bool[self.__current_row][index].source = color_image[color]
 
-
-
     def validate(self, source):
+        if not self.is_boll_completed():
+            return
+        
         if self.validate_combination is not None:
             self.validate_combination()
+
 
         self.__current_row += 1
 
         for column in range(self.__grid_columns):
-            self.__master_bool[self.__current_row].append(MyButton(source= color_image['white']))
+            self.__master_bool[self.__current_row].append(
+                MyButton(source=color_image['No color']))
             self.__mastermind_layout[self.__current_row].add_widget(
                 self.__master_bool[self.__current_row][column])
+            self.__color_spinner[column].text = "No color"
+
+    def is_boll_completed(self):
+        current_boll_list = self.__master_bool[self.__current_row]
+        for boll in current_boll_list:
+            if boll.source == color_image["No color"]:
+                self.popup_windows("Complete all the grid !")
+                return False
+        return True
+
 
     def get_combination(self):
         combination = []
@@ -257,7 +268,24 @@ class MasterGui(App):
             combination.append(color_list.index(color))
 
         print(f"Combination tested : {combination}")
+
         return combination[:]
+
+    def popup_windows(self, message):
+        box = BoxLayout(orientation="vertical")
+
+        error_message = Label(text=message)
+        skip_button = Button(text="Close the windows", size_hint=(1, .2))
+
+        box.add_widget(error_message)
+        box.add_widget(skip_button)
+
+        popup = Popup(title='Warning', content=box,
+                      size_hint=(None, None), size=(300, 300))
+
+        skip_button.bind(on_press=popup.dismiss)
+
+        popup.open()
 
     @property
     def good_position(self):
