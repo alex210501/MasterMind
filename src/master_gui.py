@@ -11,12 +11,14 @@ from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.spinner import Spinner
 from kivy.uix.popup import Popup
 
-pseudo_format = "Pseudo: {}"
-best_score_format = "{}: ({})"
+pseudo_format = "Pseudo : {}"
+best_score_format = "Best score : {}({})"
 color_list = ["red", "blue", "yellow", "green", "white", "black"]
 color_image = {"No color": "Pictures/red_cross.png", "red": 'Pictures/red_circle.png', "blue": 'Pictures/blue_circle.png',
                 "yellow": 'Pictures/yellow_circle.png',"green": 'Pictures/green_circle.png',
                 "white": 'Pictures/white_circle.png', "black": 'Pictures/black_circle.png'}
+winning_text = "You win in {} attemps !"
+loser_text = "Game over !"
 
 
 class MyButton(ButtonBehavior, Image):
@@ -27,6 +29,7 @@ class MyButton(ButtonBehavior, Image):
 class MasterGui(App):
     def __init__(self):
         super().__init__()
+        self.start_switch = None
         self.options_switch = None
         self.game_switch = None
         self.validate_combination = None
@@ -34,12 +37,12 @@ class MasterGui(App):
         self.__best_score = 10
         self.__grid_rows = 10
         self.__grid_columns = 4
-        self.__current_row = 0
+        self.__current_attempt = 0
         self.__mastermind_layout = []
         self.__color_spinner = []
         self.__good_position = []
         self.__good_color = []
-        self.__master_bool = []
+        self.__master_boll = []
 
     def build(self):
         """
@@ -190,6 +193,9 @@ class MasterGui(App):
         self.__manager.current = "options"
 
     def switch_to_start(self, source):
+        if self.start_switch is not None:
+            self.start_switch()
+
         self.__manager.transition.direction = "right"
         self.__manager.current = "start"
 
@@ -197,15 +203,15 @@ class MasterGui(App):
         if self.game_switch is not None:
             self.game_switch()
 
+        self.clear_mastermind()
         self.__manager.transition.direction = "left"
         self.__manager.current = "mastermind"
-        self.clear_mastermind()
-        self.pseudo_output.text = self.get_pseudo()
+        self.pseudo_output.text = pseudo_format.format(self.get_pseudo())
 
     def get_pseudo(self):
         if self.__pseudo_input.text == '':
-            return "No pseudo"
-        return pseudo_format.format(self.__pseudo_input.text)
+            return "/"
+        return self.__pseudo_input.text
 
     def set_best_score(self, pseudo, score):
         if pseudo != "":
@@ -215,24 +221,29 @@ class MasterGui(App):
                                                                    self.__best_score)
 
     def clear_mastermind(self):
+        self.__master_boll = []
+        
+        # Remove all widget and indications
         for row in range(self.__grid_rows):
             self.__mastermind_layout[row].clear_widgets()
             self.__good_position[row].text = ""
             self.__good_color[row].text = ""
-            self.__master_bool.append([])
-
+            self.__master_boll.append([])
+        
         # Create master button
         for column in range(self.__grid_columns):
-            self.__master_bool[0].append(
+            self.__color_spinner[column].text = "No color"
+            self.__master_boll[0].append(
                 MyButton(source=color_image['No color']))
             self.__mastermind_layout[0].add_widget(
-                self.__master_bool[0][column])
-        
-        self.__current_row = 0
+                self.__master_boll[0][column])
+              
+        self.__current_attempt = 0
     
     def change_boll_color(self, source, color):
         index = self.__color_spinner.index(source)
-        self.__master_bool[self.__current_row][index].source = color_image[color]
+        if index <= (len(self.__master_boll[self.__current_attempt]) - 1):
+            self.__master_boll[self.__current_attempt][index].source = color_image[color]
 
     def validate(self, source):
         if not self.is_boll_completed():
@@ -242,17 +253,18 @@ class MasterGui(App):
             self.validate_combination()
 
 
-        self.__current_row += 1
+        self.__current_attempt += 1
 
-        for column in range(self.__grid_columns):
-            self.__master_bool[self.__current_row].append(
-                MyButton(source=color_image['No color']))
-            self.__mastermind_layout[self.__current_row].add_widget(
-                self.__master_bool[self.__current_row][column])
-            self.__color_spinner[column].text = "No color"
+        if self.current_attempt < self.__grid_rows - 1:
+            for column in range(self.__grid_columns):
+                self.__master_boll[self.__current_attempt].append(
+                    MyButton(source=color_image['No color']))
+                self.__mastermind_layout[self.__current_attempt].add_widget(
+                    self.__master_boll[self.__current_attempt][column])
+                self.__color_spinner[column].text = "No color"
 
     def is_boll_completed(self):
-        current_boll_list = self.__master_bool[self.__current_row]
+        current_boll_list = self.__master_boll[self.__current_attempt]
         for boll in current_boll_list:
             if boll.source == color_image["No color"]:
                 self.popup_windows("Complete all the grid !")
@@ -287,22 +299,52 @@ class MasterGui(App):
 
         popup.open()
 
+    def end_game_popup(self, is_won):
+        if is_won:
+            text_to_disp = winning_text.format(self.current_attempt)
+        else:
+            text_to_disp = loser_text
+        box = BoxLayout(orientation="vertical")
+        button_layout = BoxLayout(orientation="horizontal", size_hint=(1, .2))
+        end_message = Label(text=text_to_disp)
+        home_button = Button(text="Home")
+        play_again_button = Button(text="Play Again")
+
+        button_layout.add_widget(play_again_button)
+        button_layout.add_widget(home_button)
+
+        box.add_widget(end_message)
+        box.add_widget(button_layout)
+
+        end_popup = Popup(title='End game', content=box,
+                      size_hint=(None, None), size=(300, 300))
+
+        home_button.bind(on_press=self.switch_to_start)
+        play_again_button.bind(on_press=self.switch_to_game)
+
+        # end_popup.bind(on_touch_down=end_popup.dismiss)
+        
+        end_popup.open()
+
     @property
     def good_position(self):
-        return self.__good_position[self.__current_row]
+        return self.__good_position[self.__current_attempt]
 
     @good_position.setter
     def good_position(self, position_nb):
-        self.__good_position[self.__current_row].text = str(position_nb)
+        self.__good_position[self.__current_attempt].text = str(position_nb)
     
     @property
     def good_color(self):
-        return self.__good_color[self.__current_row].text
+        return self.__good_color[self.__current_attempt].text
 
     @good_color.setter
     def good_color(self, color_nb):
-        self.__good_color[self.__current_row].text = str(color_nb)
-        
+        self.__good_color[self.__current_attempt].text = str(color_nb)
+
+    @property
+    def current_attempt(self):
+        return self.__current_attempt + 1
 
 
 # Config.set('graphics', 'resizable', False)
@@ -311,4 +353,5 @@ Config.set('graphics', 'height', '600')
 
 if __name__ == "__main__":
     master_gui = MasterGui()
+    # master_gui.clear_mastermind()
     master_gui.run()

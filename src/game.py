@@ -3,9 +3,11 @@ import random
 class Game:
     def __init__(self):
         self.__pseudo = ""
+        self.__max_attempt = 10
         self.__max_color = 6
         self.__combination_nb = 4 # Column number
         self.__code = []
+    
     @property
     def pseudo(self):
         return self.__pseudo
@@ -13,6 +15,10 @@ class Game:
     @pseudo.setter
     def pseudo(self, pseudo_enter):
         self.__pseudo = pseudo_enter
+
+    def reset(self):
+        self.__pseudo = ""
+        self.__code = []
 
     def create_random_combination(self):
         self.__code = []
@@ -45,6 +51,16 @@ class Game:
                 good_position += 1
 
         return good_position
+
+    def is_game_ended(self, attempt_nb, good_positions):
+        if attempt_nb == self.__max_attempt or good_positions == self.__combination_nb:
+            return True
+        return False
+
+    def is_game_won(self, good_positions):
+        if good_positions == self.__combination_nb:
+            return True
+        return False
 
 if __name__ == "__main__":
     my_game = Game()
