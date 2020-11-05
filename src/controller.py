@@ -18,6 +18,8 @@ class Controller():
         self.__gui.game_switch = self.enter_game
         self.__gui.validate_combination = self.check_result
         self.__gui.start_switch = self.prepare_new_game
+        self.__gui.prepare_normal_game = self.__game.normal_game_rules
+        self.__gui.prepare_super_game = self.__game.super_game_rules
 
     def enter_game(self):
         self.prepare_new_game()
@@ -31,10 +33,10 @@ class Controller():
 
     def check_result(self):
         color_combination = self.__gui.get_combination()
-        good_position = self.__game.get_position(color_combination)
-        self.__gui.good_position = good_position
-        self.__gui.good_color = self.__game.get_color_present(color_combination)
-        
+
+        good_position, color_present = self.__game.check_combination(color_combination)
+        self.__gui.set_advice(good_position, color_present)
+
         if self.__game.is_game_ended(self.__gui.current_attempt, good_position):
             self.__gui.end_game_popup(self.__game.is_game_won(good_position))
             self.__database.write_score(

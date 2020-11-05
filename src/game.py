@@ -34,23 +34,16 @@ class Game:
     def code(self):
         return self.__code
 
-    def get_color_present(self, combination):
-        color_present = 0
-
-        for color in combination:
-            if color in self.__code:
-                color_present += 1
-        
-        return color_present
-    
-    def get_position(self, combination):
-        good_position = 0
+    def check_combination(self, combination):
+        color_present, good_position = 0, 0
 
         for position, color in enumerate(combination):
             if self.__code[position] == color:
                 good_position += 1
+            elif color in self.__code:
+                color_present += 1
 
-        return good_position
+        return good_position, color_present
 
     def is_game_ended(self, attempt_nb, good_positions):
         if attempt_nb == self.__max_attempt or good_positions == self.__combination_nb:
@@ -61,6 +54,16 @@ class Game:
         if good_positions == self.__combination_nb:
             return True
         return False
+
+    def normal_game_rules(self):
+        self.__max_attempt = 10
+        self.__max_color = 6
+        self.__combination_nb = 4
+
+    def super_game_rules(self):
+        self.__max_attempt = 12
+        self.__max_color = 8
+        self.__combination_nb = 5
 
 if __name__ == "__main__":
     my_game = Game()

@@ -10,16 +10,32 @@ from kivy.uix.image import Image
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.spinner import Spinner
 from kivy.uix.popup import Popup
+from kivy.uix.checkbox import CheckBox
+
+# Declared Images
+back_menu_img = "Pictures/left_arrow.png"
+good_position_img = "Pictures/true_icon_green.png"
+good_color_img = "Pictures/true_icon_orange.png"
+wrong_proposition_img = "Pictures/false_icon.png"
+red_cross_img = "Pictures/red_cross.png"
+red_circle_img = "Pictures/red_circle.png"
+blue_circle_img = "Pictures/blue_circle.png"
+yellow_circle_img = "Pictures/yellow_circle.png"
+green_circle_img = "Pictures/green_circle.png"
+white_circle_img = "Pictures/white_circle.png"
+black_circle_img = "Pictures/black_circle.png"
+purple_circle_img = "Pictures/purple_circle.png"
+orange_circle_img = "Pictures/orange_circle.png"
 
 pseudo_format = "Pseudo : {}"
 best_score_format = "Best score : {}({})"
-color_list = ["red", "blue", "yellow", "green", "white", "black"]
-color_image = {"No color": "Pictures/red_cross.png", "red": 'Pictures/red_circle.png', "blue": 'Pictures/blue_circle.png',
-                "yellow": 'Pictures/yellow_circle.png',"green": 'Pictures/green_circle.png',
-                "white": 'Pictures/white_circle.png', "black": 'Pictures/black_circle.png'}
+color_list = ["red", "blue", "yellow", "green", "white", "black", "purple", "orange"]
+color_image = {"No color": red_cross_img, "red": red_circle_img, "blue": blue_circle_img,
+                "yellow": yellow_circle_img,"green": green_circle_img,
+                "white": white_circle_img, "black": black_circle_img,
+                "purple": purple_circle_img, "orange": orange_circle_img}
 winning_text = "You win in {} attemps !"
 loser_text = "Game over !"
-
 
 class MyButton(ButtonBehavior, Image):
     def __init__(self, source, **kwargs):
@@ -33,16 +49,18 @@ class MasterGui(App):
         self.options_switch = None
         self.game_switch = None
         self.validate_combination = None
+        self.prepare_normal_game = None
+        self.prepare_super_game = None
         self.__best_pseudo = ""
         self.__best_score = 10
         self.__grid_rows = 10
         self.__grid_columns = 4
         self.__current_attempt = 0
         self.__mastermind_layout = []
+        self.__advice_layout = []
         self.__color_spinner = []
-        self.__good_position = []
-        self.__good_color = []
         self.__master_boll = []
+        self.__advice = []
 
     def build(self):
         """
@@ -84,10 +102,31 @@ class MasterGui(App):
 
         box.add_widget(title)
         box.add_widget(pseudo_layout)
+        box.add_widget(self.start_game_type())
         box.add_widget(button_layout)
         screen.add_widget(box)
 
         return screen
+
+    def start_game_type(self):
+        type_game_layout = BoxLayout(orientation="horizontal", 
+                                    padding=(20, 0), size_hint=(1, .3))
+
+        checkbox_normal = CheckBox(group="type", size_hint=(.1, 1), active=True)
+        checkbox_super = CheckBox(group="type", size_hint=(.1, 1))
+
+        label_normal = Label(text="Normal", padding=(0, 10))
+        label_super = Label(text="Super", padding=(0, 10))
+
+        type_game_layout.add_widget(checkbox_normal)
+        type_game_layout.add_widget(label_normal)
+        type_game_layout.add_widget(checkbox_super)
+        type_game_layout.add_widget(label_super)
+
+        checkbox_normal.bind(active=self.make_normal_game)
+        checkbox_super.bind(active=self.make_super_game)
+
+        return type_game_layout
 
     def build_options(self):
         """
@@ -100,7 +139,7 @@ class MasterGui(App):
         title = Label(text="Options",
                       font_size=30, halign="center", pos_hint={'y': 0.3})
         # Button(text="Back", size_hint=(.2, 1))
-        back_button = MyButton(source="Pictures/left_arrow.png",
+        back_button = MyButton(source=back_menu_img,
                                 size_hint=(.2, 1))
         back_button.bind(on_press=self.switch_to_start)
         # button_layout = BoxLayout(orientation="horizontal")
@@ -127,7 +166,7 @@ class MasterGui(App):
                       font_size=15, pos_hint={'y': 0.1})
         self.best_score_output = Label(text=f"No best score",
                               font_size=15, pos_hint={'y': 0.1})
-        back_button = back_button = MyButton(source="Pictures/left_arrow.png",
+        back_button = back_button = MyButton(source=back_menu_img,
                                             size_hint=(.2, 1), pos_hint = {'y': 0.1})
         back_button.bind(on_press=self.switch_to_start)
 
@@ -144,41 +183,41 @@ class MasterGui(App):
 
     def mastermind_middle_layout(self):
         middle_layout = BoxLayout(orientation="horizontal", size_hint=(1, 1))
-        left_layout = BoxLayout(orientation="vertical", size_hint=(1, 1))
-        good_position_layout = BoxLayout(orientation="vertical", size_hint=(.3, 1))
-        good_color_layout = BoxLayout(orientation="vertical", size_hint=(.3, 1))
+        combination_layout = BoxLayout(orientation="vertical", size_hint=(1, 1))
+        advice_layout = BoxLayout(orientation="vertical", size_hint=(.6, 1))
 
         self.grid_button = GridLayout(rows=self.__grid_rows, cols=self.__grid_columns)
 
-        left_layout.add_widget(Label(text='Combination'))
+        combination_layout.add_widget(Label(text='Combination'))
 
-        good_position_layout.add_widget(Label(text="Good position"))
-        good_color_layout.add_widget(Label(text="Good color"))
+        advice_layout.add_widget(Label(text="Advice"))
 
-        for row in range(self.__grid_rows):
+        for row in range(12):
             self.__mastermind_layout.append(BoxLayout(
                                             orientation="horizontal", padding=(0, 5)))
-            left_layout.add_widget(self.__mastermind_layout[row])
-            self.__good_position.append(Label(text=""))
-            self.__good_color.append(Label(text=""))
-
-            good_position_layout.add_widget(self.__good_position[row])
-            good_color_layout.add_widget(self.__good_color[row])
+            self.__advice_layout.append(BoxLayout(
+                                            orientation="horizontal", padding=(0, 5)))
+            combination_layout.add_widget(self.__mastermind_layout[row])
+            advice_layout.add_widget(self.__advice_layout[row])
         
-        middle_layout.add_widget(left_layout)
-        middle_layout.add_widget(good_position_layout)
-        middle_layout.add_widget(good_color_layout)
+        middle_layout.add_widget(combination_layout)
+        middle_layout.add_widget(advice_layout)
 
         return middle_layout
 
     def mastermind_bottom_layout(self):
         bottom_layout = BoxLayout(orientation="horizontal", size_hint=(1, 0.1))
 
-        for column in range(self.__grid_columns):
-            self.__color_spinner.append(Spinner(text="No color", values=color_list, size_hint=(.4, 1)))
+        for column in range(5):
+            self.__color_spinner.append(
+                Spinner(text="No color", values=color_list[:6], size_hint=(.4, 1)))
             bottom_layout.add_widget(self.__color_spinner[column])
             self.__color_spinner[column].bind(text=self.change_boll_color)
         
+        #Make the fifth spinner invisible
+        self.__color_spinner[-1].disabled = True
+        self.__color_spinner[-1].opacity = 0
+
         validate_button = Button(text="Validate")
         validate_button.bind(on_press=self.validate)
         bottom_layout.add_widget(validate_button)
@@ -226,15 +265,14 @@ class MasterGui(App):
         # Remove all widget and indications
         for row in range(self.__grid_rows):
             self.__mastermind_layout[row].clear_widgets()
-            self.__good_position[row].text = ""
-            self.__good_color[row].text = ""
+            self.__advice_layout[row].clear_widgets()
             self.__master_boll.append([])
         
         # Create master button
         for column in range(self.__grid_columns):
             self.__color_spinner[column].text = "No color"
             self.__master_boll[0].append(
-                MyButton(source=color_image['No color']))
+                Image(source=color_image['No color']))
             self.__mastermind_layout[0].add_widget(
                 self.__master_boll[0][column])
               
@@ -260,7 +298,7 @@ class MasterGui(App):
 
         for column in range(self.__grid_columns):
             self.__master_boll[self.__current_attempt].append(
-                MyButton(source=color_image['No color']))
+                Image(source=color_image['No color']))
             self.__mastermind_layout[self.__current_attempt].add_widget(
                 self.__master_boll[self.__current_attempt][column])
             self.__color_spinner[column].text = "No color"
@@ -284,6 +322,21 @@ class MasterGui(App):
         print(f"Combination tested : {combination}")
 
         return combination[:]
+
+    def set_advice(self, good_position, good_color):
+        wrong_proposition = self.__grid_columns - good_position - good_color
+    
+        for _ in range(good_position):
+            self.__advice_layout[self.__current_attempt].add_widget(Image(source=good_position_img))
+        
+        for _ in range(good_color):
+            self.__advice_layout[self.__current_attempt].add_widget(
+                Image(source=good_color_img))
+            
+        for _ in range(wrong_proposition):
+            self.__advice_layout[self.__current_attempt].add_widget(
+                Image(source=wrong_proposition_img))
+
 
     def popup_windows(self, message):
         box = BoxLayout(orientation="vertical")
@@ -332,25 +385,35 @@ class MasterGui(App):
         popup.open()
 
     @property
-    def good_position(self):
-        return self.__good_position[self.__current_attempt]
-
-    @good_position.setter
-    def good_position(self, position_nb):
-        self.__good_position[self.__current_attempt].text = str(position_nb)
-    
-    @property
-    def good_color(self):
-        return self.__good_color[self.__current_attempt].text
-
-    @good_color.setter
-    def good_color(self, color_nb):
-        self.__good_color[self.__current_attempt].text = str(color_nb)
-
-    @property
     def current_attempt(self):
         return self.__current_attempt + 1
 
+    def make_normal_game(self, *value):
+        if self.prepare_normal_game is not None:
+            self.prepare_normal_game()
+
+        self.__grid_columns = 4
+        self.__grid_rows = 10
+
+        # Make the last spinner invisible
+        self.__color_spinner[-1].disabled = True
+        self.__color_spinner[-1].opacity = 0
+
+        for column in range(self.__grid_columns):
+            self.__color_spinner[column].values = color_list[:6]
+    
+    def make_super_game(self, *value):
+        if self.prepare_super_game is not None:
+            self.prepare_super_game()
+        self.__grid_columns = 5
+        self.__grid_rows = 12
+
+        # Make the last spinner visible
+        self.__color_spinner[-1].disabled = False
+        self.__color_spinner[-1].opacity = 1
+
+        for column in range(self.__grid_columns):
+            self.__color_spinner[column].values = color_list
 
 # Config.set('graphics', 'resizable', False)
 Config.set('graphics', 'width', '500')
