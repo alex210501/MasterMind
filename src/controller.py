@@ -1,4 +1,4 @@
-from master_gui import MasterGui
+from Gui.master_gui import MasterGui
 from database import DataBase
 from game import Game
 
@@ -23,7 +23,7 @@ class Controller():
 
     def enter_game(self):
         self.prepare_new_game()
-        self.__game.pseudo = self.__gui.get_pseudo()
+        self.__game.pseudo = self.__gui.pseudo
         self.__game.create_random_combination()
         self.__gui.set_best_score(*self.__database.get_best_score())
 
