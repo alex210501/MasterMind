@@ -27,8 +27,17 @@ class DataBase:
             score : integer
                 The current score to save
         """
+        # Return if no pseudo entered
+        if pseudo == '/':
+            return
+        
         all_scores = self.get_all_scores()
 
+        # Save the score only if it's better tha the one saved
+        if pseudo in all_scores.keys():
+            if all_scores[pseudo] <= score:
+                return
+        
         with open(score_file, 'w') as file:
             all_scores[pseudo] = score
             file.write(json.dumps(all_scores, indent=4, separators=(',', ': ')))

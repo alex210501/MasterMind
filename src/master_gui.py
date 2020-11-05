@@ -242,6 +242,7 @@ class MasterGui(App):
     
     def change_boll_color(self, source, color):
         index = self.__color_spinner.index(source)
+        
         if index <= (len(self.__master_boll[self.__current_attempt]) - 1):
             self.__master_boll[self.__current_attempt][index].source = color_image[color]
 
@@ -252,16 +253,17 @@ class MasterGui(App):
         if self.validate_combination is not None:
             self.validate_combination()
 
-
+        if self.__current_attempt >= self.__grid_rows - 1:
+            return
+            
         self.__current_attempt += 1
 
-        if self.current_attempt < self.__grid_rows - 1:
-            for column in range(self.__grid_columns):
-                self.__master_boll[self.__current_attempt].append(
-                    MyButton(source=color_image['No color']))
-                self.__mastermind_layout[self.__current_attempt].add_widget(
-                    self.__master_boll[self.__current_attempt][column])
-                self.__color_spinner[column].text = "No color"
+        for column in range(self.__grid_columns):
+            self.__master_boll[self.__current_attempt].append(
+                MyButton(source=color_image['No color']))
+            self.__mastermind_layout[self.__current_attempt].add_widget(
+                self.__master_boll[self.__current_attempt][column])
+            self.__color_spinner[column].text = "No color"
 
     def is_boll_completed(self):
         current_boll_list = self.__master_boll[self.__current_attempt]
@@ -304,6 +306,7 @@ class MasterGui(App):
             text_to_disp = winning_text.format(self.current_attempt)
         else:
             text_to_disp = loser_text
+        
         box = BoxLayout(orientation="vertical")
         button_layout = BoxLayout(orientation="horizontal", size_hint=(1, .2))
         end_message = Label(text=text_to_disp)
@@ -316,15 +319,17 @@ class MasterGui(App):
         box.add_widget(end_message)
         box.add_widget(button_layout)
 
-        end_popup = Popup(title='End game', content=box,
-                      size_hint=(None, None), size=(300, 300))
+        popup = Popup(title='End game', content=box,
+                      size_hint=(None, None), size=(300, 300),
+                      auto_dismiss=False)
 
         home_button.bind(on_press=self.switch_to_start)
         play_again_button.bind(on_press=self.switch_to_game)
-
-        # end_popup.bind(on_touch_down=end_popup.dismiss)
         
-        end_popup.open()
+        home_button.bind(on_release=popup.dismiss)
+        play_again_button.bind(on_release=popup.dismiss)
+
+        popup.open()
 
     @property
     def good_position(self):
