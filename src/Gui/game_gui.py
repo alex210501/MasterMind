@@ -8,6 +8,7 @@ from kivy.uix.image import Image
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.spinner import Spinner
 from kivy.uix.popup import Popup
+from .img_button import ImgButton
 
 # Declared Images
 back_menu_img = "Pictures/left_arrow.png"
@@ -26,17 +27,12 @@ orange_circle_img = "Pictures/orange_circle.png"
 
 pseudo_format = "Pseudo : {}"
 best_score_format = "Best score : {}({})"
-color_list = ["red", "blue", "yellow", "green",
+color_list = ["No color", "red", "blue", "yellow", "green",
               "white", "black", "purple", "orange"]
 color_image = {"No color": red_cross_img, "red": red_circle_img, "blue": blue_circle_img,
                "yellow": yellow_circle_img, "green": green_circle_img,
                "white": white_circle_img, "black": black_circle_img,
                "purple": purple_circle_img, "orange": orange_circle_img}
-
-class MyButton(ButtonBehavior, Image):
-    def __init__(self, source, **kwargs):
-        super(MyButton, self).__init__(**kwargs)
-        self.source = source
 
 class GameGui:
     def __init__(self):
@@ -63,7 +59,7 @@ class GameGui:
                                    font_size=15, pos_hint={'y': 0.1})
         self.__best_score_output = Label(text=f"No best score",
                                        font_size=15, pos_hint={'y': 0.1})
-        back_button = back_button = MyButton(source=back_menu_img,
+        back_button = back_button = ImgButton(source=back_menu_img,
                                              size_hint=(.2, 1), pos_hint={'y': 0.1})
         back_button.bind(on_press=self.switch_to_start)
 

@@ -11,22 +11,14 @@ from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.spinner import Spinner
 from kivy.uix.popup import Popup
 from kivy.uix.checkbox import CheckBox
-
-if __name__ == "__main__":
-    from start_gui import StartGui
-    from game_gui import GameGui
-else:
-    from Gui.start_gui import StartGui
-    from Gui.game_gui import GameGui
+from .start_gui import StartGui
+from .game_gui import GameGui
+from .img_button import ImgButton
 
 back_menu_img = "Pictures/left_arrow.png"
 winning_text = "You win in {} attemps !"
 loser_text = "Game over !"
 
-class MyButton(ButtonBehavior, Image):
-    def __init__(self, source, **kwargs):
-        super(MyButton, self).__init__(**kwargs)
-        self.source = source
     
 class MasterGui(App, StartGui, GameGui):
     def __init__(self):
@@ -68,7 +60,7 @@ class MasterGui(App, StartGui, GameGui):
         title = Label(text="Options",
                       font_size=30, halign="center", pos_hint={'y': 0.3})
         # Button(text="Back", size_hint=(.2, 1))
-        back_button = MyButton(source=back_menu_img,
+        back_button = ImgButton(source=back_menu_img,
                                 size_hint=(.2, 1))
         back_button.bind(on_press=self.switch_to_start)
         # button_layout = BoxLayout(orientation="horizontal")
@@ -142,7 +134,7 @@ class MasterGui(App, StartGui, GameGui):
 
         popup = Popup(title='End game', content=box,
                       size_hint=(None, None), size=(300, 300),
-                      auto_dismiss=False)
+                      auto_dismiss=True)
 
         home_button.bind(on_press=self.switch_to_start)
         play_again_button.bind(on_press=self.switch_to_game)

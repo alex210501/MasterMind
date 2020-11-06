@@ -6,6 +6,7 @@ class Game:
         self.__max_attempt = 10
         self.__max_color = 6
         self.__combination_nb = 4 # Column number
+        self.__game_mode = "normal"
         self.__code = []
     
     @property
@@ -24,7 +25,10 @@ class Game:
         self.__code = []
 
         for _ in range(self.__combination_nb):
-            self.__code.append(random.randrange(self.__max_color))
+            current_color = random.randrange(1, self.__max_color)
+            while current_color in self.__code:
+                current_color = random.randrange(1, self.__max_color)
+            self.__code.append(current_color)
         
         print(f"The secret code is {self.__code}")
 
@@ -36,12 +40,25 @@ class Game:
 
     def check_combination(self, combination):
         color_present, good_position = 0, 0
+        code = self.__code[:]
+        combination_copy = combination[:]
 
+        # First, check the position
         for position, color in enumerate(combination):
             if self.__code[position] == color:
                 good_position += 1
-            elif color in self.__code:
+                combination_copy.remove(color)
+                code.remove(color)
+                print(code)
+        print("break")
+        print(code)
+        # Second, check the color
+        for color in combination_copy[:]:
+            if color in code:
+                combination_copy.remove(color)
+                code.remove(color)
                 color_present += 1
+                print(code)
 
         return good_position, color_present
 
@@ -56,14 +73,20 @@ class Game:
         return False
 
     def normal_game_rules(self):
+        self.__game_mode = "normal"
         self.__max_attempt = 10
         self.__max_color = 6
         self.__combination_nb = 4
 
     def super_game_rules(self):
+        self.__game_mode = "super"
         self.__max_attempt = 12
         self.__max_color = 8
         self.__combination_nb = 5
+
+    @property
+    def game_mode(self):
+        return self.__game_mode
 
 if __name__ == "__main__":
     my_game = Game()

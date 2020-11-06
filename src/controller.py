@@ -25,7 +25,8 @@ class Controller():
         self.prepare_new_game()
         self.__game.pseudo = self.__gui.pseudo
         self.__game.create_random_combination()
-        self.__gui.set_best_score(*self.__database.get_best_score())
+        self.__gui.set_best_score(
+            *self.__database.get_best_score(self.__game.game_mode))
 
     def prepare_new_game(self):
         self.__game.reset()
@@ -39,8 +40,9 @@ class Controller():
 
         if self.__game.is_game_ended(self.__gui.current_attempt, good_position):
             self.__gui.end_game_popup(self.__game.is_game_won(good_position))
-            self.__database.write_score(
-                self.__game.pseudo, self.__gui.current_attempt)
+            self.__database.write_score(self.__game.pseudo,
+                                        self.__gui.current_attempt,
+                                        self.__game.game_mode)
 
 if __name__ == "__main__":
     mastermind = Controller()
