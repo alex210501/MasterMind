@@ -12,9 +12,15 @@ class Controller():
         self.prepare_gui_function()
 
     def start(self):
+        """
+            Start the gui process
+        """
         self.__gui.run()
 
     def prepare_gui_function(self):
+        """
+            Prepare all gui function
+        """
         self.__gui.game_switch = self.enter_game
         self.__gui.validate_combination = self.check_result
         self.__gui.start_switch = self.prepare_new_game
@@ -22,6 +28,9 @@ class Controller():
         self.__gui.prepare_super_game = self.__game.super_game_rules
 
     def enter_game(self):
+        """
+            Prepare the menu to start the game
+        """
         self.prepare_new_game()
         self.__game.pseudo = self.__gui.pseudo
         self.__game.create_random_combination()
@@ -29,11 +38,17 @@ class Controller():
             *self.__database.get_best_score(self.__game.game_mode))
 
     def prepare_new_game(self):
+        """
+            Make configuration to start a new game
+        """
         self.__gui.blocking_mode = False
         self.__game.reset()
         self.__gui.clear_mastermind()
 
     def check_result(self):
+        """
+            Check the result to check if the game is ended
+        """
         color_combination = self.__gui.get_combination()
 
         good_position, color_present = self.__game.check_combination(color_combination)
@@ -45,6 +60,7 @@ class Controller():
             self.__gui.end_game_popup(self.__game.is_game_won(good_position))
             self.__database.write_score(self.__game.pseudo,
                                         self.__game.score,
+                                        self.__game.game_path,
                                         self.__game.game_mode)
 
 if __name__ == "__main__":

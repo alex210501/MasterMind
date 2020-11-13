@@ -1,12 +1,111 @@
 {
     "normal": {
-        "thebest": 5,
-        "daddy": 6,
-        "lili": 3,
-        "alex210501": 4,
-        "test123": 6
+        "TestEncodeData": {
+            "score": 6,
+            "game": [
+                [
+                    "green",
+                    "yellow",
+                    "white",
+                    "blue"
+                ],
+                [
+                    "green",
+                    "yellow",
+                    "blue",
+                    "white"
+                ],
+                [
+                    "green",
+                    "blue",
+                    "yellow",
+                    "white"
+                ],
+                [
+                    "blue",
+                    "yellow",
+                    "white",
+                    "green"
+                ]
+            ]
+        },
+        "DataEncode": {
+            "score": 3,
+            "game": [
+                [
+                    "white",
+                    "green",
+                    "yellow",
+                    "blue"
+                ],
+                [
+                    "white",
+                    "red",
+                    "red",
+                    "green"
+                ],
+                [
+                    "white",
+                    "red",
+                    "blue",
+                    "yellow"
+                ],
+                [
+                    "yellow",
+                    "red",
+                    "red",
+                    "green"
+                ],
+                [
+                    "green",
+                    "white",
+                    "white",
+                    "green"
+                ],
+                [
+                    "red",
+                    "green",
+                    "yellow",
+                    "blue"
+                ],
+                [
+                    "red",
+                    "green",
+                    "green",
+                    "red"
+                ]
+            ]
+        }
     },
     "super": {
-        "lisaRGT": 3
+        "lisaRGT": {
+            "score": 6,
+            "game": [
+                [
+                    "green",
+                    "yellow",
+                    "white",
+                    "blue"
+                ],
+                [
+                    "green",
+                    "yellow",
+                    "blue",
+                    "white"
+                ],
+                [
+                    "green",
+                    "blue",
+                    "yellow",
+                    "white"
+                ],
+                [
+                    "blue",
+                    "yellow",
+                    "white",
+                    "green"
+                ]
+            ]
+        }
     }
 }

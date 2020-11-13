@@ -92,7 +92,7 @@ class GameGui:
 
         for column in range(5):
             self.__color_spinner.append(
-                Spinner(text="No color", values=color_list[:6], size_hint=(.4, 1)))
+                Spinner(text="No color", values=color_list[:7], size_hint=(.4, 1)))
             bottom_layout.add_widget(self.__color_spinner[column])
             self.__color_spinner[column].bind(text=self.change_boll_color)
 
@@ -180,7 +180,7 @@ class GameGui:
 
         for column in range(self.__grid_columns):
             color = self.__color_spinner[column].text
-            combination.append(color_list.index(color))
+            combination.append(color)
 
         print(f"Combination tested : {combination}")
 
@@ -210,7 +210,7 @@ class GameGui:
         self.__color_spinner[-1].opacity = 0
 
         for column in range(self.__grid_columns):
-            self.__color_spinner[column].values = color_list[:6]
+            self.__color_spinner[column].values = color_list[:7]
     
     def super_game(self):
         self.__grid_columns = 5
@@ -233,5 +233,4 @@ class GameGui:
 
     @blocking_mode.setter
     def blocking_mode(self, mode):
-        # mode = True if mode != 0 else False
         self.__blocking_mode = mode

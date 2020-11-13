@@ -1,5 +1,9 @@
 import random
 
+
+color_list = ["No color", "red", "blue", "yellow", "green",
+              "white", "black", "purple", "orange"]
+
 class Game:
     def __init__(self):
         self.__pseudo = ""
@@ -9,6 +13,7 @@ class Game:
         self.__combination_nb = 4 # Column number
         self.__game_mode = "normal"
         self.__code = []
+        self.__game_path = []
     
     @property
     def pseudo(self):
@@ -21,15 +26,16 @@ class Game:
     def reset(self):
         self.__pseudo = ""
         self.__code = []
+        self.__game_path = []
 
     def create_random_combination(self):
         self.__code = []
 
         for _ in range(self.__combination_nb):
-            current_color = random.randrange(1, self.__max_color)
-            while current_color in self.__code:
-                current_color = random.randrange(1, self.__max_color)
-            self.__code.append(current_color)
+            index_color = random.randrange(1, self.__max_color + 1)
+            while index_color in self.__code:
+                index_color = random.randrange(1, self.__max_color)
+            self.__code.append(color_list[index_color])
         
         print(f"The secret code is {self.__code}")
 
@@ -41,6 +47,7 @@ class Game:
 
     def check_combination(self, combination):
         color_present, good_position = 0, 0
+        self.__game_path.append(combination[:])
         code = self.__code[:]
         combination_copy = combination[:]
 
@@ -90,6 +97,10 @@ class Game:
     @property
     def score(self):
         return self.__score
+
+    @property
+    def game_path(self):
+        return self.__game_path[:]
 
 if __name__ == "__main__":
     my_game = Game()
