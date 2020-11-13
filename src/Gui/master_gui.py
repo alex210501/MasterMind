@@ -14,13 +14,14 @@ from kivy.uix.checkbox import CheckBox
 from .start_gui import StartGui
 from .game_gui import GameGui
 from .img_button import ImgButton
+from .options_gui import OptionsGui
+from .png import *
 
-back_menu_img = "Pictures/left_arrow.png"
 winning_text = "You win in {} attemps !"
 loser_text = "Game over !"
 
     
-class MasterGui(App, StartGui, GameGui):
+class MasterGui(App, StartGui, GameGui, OptionsGui):
     def __init__(self):
         App.__init__(self)
         StartGui.__init__(self)
@@ -45,35 +46,6 @@ class MasterGui(App, StartGui, GameGui):
         self.__manager.current = "start"
 
         return self.__manager
-
-    # def prepare_image(self):
-    #     self.left_arrow = Image(source='Pictures/left_arrow.png')
-
-    def build_options(self):
-        """
-            Build the options screen
-        """
-        screen = Screen(name="options")
-        box = BoxLayout(orientation="vertical")
-        up_layout = BoxLayout(orientation="horizontal", size_hint=(.3, .3))
-
-        title = Label(text="Options",
-                      font_size=30, halign="center", pos_hint={'y': 0.3})
-        # Button(text="Back", size_hint=(.2, 1))
-        back_button = ImgButton(source=back_menu_img,
-                                size_hint=(.2, 1))
-        back_button.bind(on_press=self.switch_to_start)
-        # button_layout = BoxLayout(orientation="horizontal")
-        # self.__button_start = Button(text='Start')
-        # self.__button_options = Button(text='Options')
-
-        up_layout.add_widget(back_button)
-        up_layout.add_widget(title)
-
-        box.add_widget(up_layout)
-
-        screen.add_widget(box)
-        return screen
 
     def switch_to_option(self, source):
         if self.options_switch is not None:
