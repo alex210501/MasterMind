@@ -10,7 +10,7 @@ class DataBase:
             Create the score file
         """
         with open(score_file, 'w') as file:
-            json_score = {"normal": dict(), "super": dict()}
+            json_score = {"easy": {}, "normal": {}, "super": {}}
             file.write(json.dumps(
                 json_score, indent=4, separators=(',', ': ')))
 
@@ -54,6 +54,8 @@ class DataBase:
             if pseudo in all_scores[game_mode].keys():
                 if all_scores[game_mode][pseudo]["score"] >= score:
                     return
+        else:
+            all_scores[game_mode] = {}
 
         with open(score_file, 'w') as file:
             all_scores[game_mode][pseudo] = {}

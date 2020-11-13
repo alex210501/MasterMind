@@ -1,51 +1,28 @@
 {
-    "normal": {
-        "TestEncodeData": {
-            "score": 6,
+    "easy": {
+        "FirstEasyTest": {
+            "score": 4,
             "game": [
                 [
-                    "green",
-                    "yellow",
+                    "black",
                     "white",
-                    "blue"
+                    "green",
+                    "yellow"
+                ],
+                [
+                    "white",
+                    "black",
+                    "blue",
+                    "red"
                 ],
                 [
                     "green",
                     "yellow",
                     "blue",
-                    "white"
+                    "red"
                 ],
                 [
                     "green",
-                    "blue",
-                    "yellow",
-                    "white"
-                ],
-                [
-                    "blue",
-                    "yellow",
-                    "white",
-                    "green"
-                ]
-            ]
-        },
-        "DataEncode": {
-            "score": 3,
-            "game": [
-                [
-                    "white",
-                    "green",
-                    "yellow",
-                    "blue"
-                ],
-                [
-                    "white",
-                    "red",
-                    "red",
-                    "green"
-                ],
-                [
-                    "white",
                     "red",
                     "blue",
                     "yellow"
@@ -53,59 +30,53 @@
                 [
                     "yellow",
                     "red",
-                    "red",
-                    "green"
-                ],
-                [
-                    "green",
-                    "white",
-                    "white",
+                    "blue",
                     "green"
                 ],
                 [
                     "red",
                     "green",
-                    "yellow",
+                    "blue",
+                    "yellow"
+                ]
+            ]
+        },
+        "SecondEasyTest": {
+            "score": 5,
+            "game": [
+                [
+                    "black",
+                    "white",
+                    "green",
+                    "yellow"
+                ],
+                [
+                    "white",
+                    "black",
+                    "green",
+                    "red"
+                ],
+                [
+                    "black",
+                    "white",
+                    "red",
                     "blue"
                 ],
                 [
+                    "black",
+                    "white",
+                    "yellow",
+                    "green"
+                ],
+                [
+                    "green",
+                    "white",
                     "red",
-                    "green",
-                    "green",
-                    "red"
+                    "yellow"
                 ]
             ]
         }
     },
-    "super": {
-        "lisaRGT": {
-            "score": 6,
-            "game": [
-                [
-                    "green",
-                    "yellow",
-                    "white",
-                    "blue"
-                ],
-                [
-                    "green",
-                    "yellow",
-                    "blue",
-                    "white"
-                ],
-                [
-                    "green",
-                    "blue",
-                    "yellow",
-                    "white"
-                ],
-                [
-                    "blue",
-                    "yellow",
-                    "white",
-                    "green"
-                ]
-            ]
-        }
-    }
+    "normal": {},
+    "super": {}
 }

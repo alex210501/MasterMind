@@ -24,6 +24,7 @@ class Controller():
         self.__gui.game_switch = self.enter_game
         self.__gui.validate_combination = self.check_result
         self.__gui.start_switch = self.prepare_new_game
+        self.__gui.prepare_easy_game = self.__game.easy_game_rules
         self.__gui.prepare_normal_game = self.__game.normal_game_rules
         self.__gui.prepare_super_game = self.__game.super_game_rules
 

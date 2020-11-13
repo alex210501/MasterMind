@@ -33,8 +33,9 @@ class Game:
 
         for _ in range(self.__combination_nb):
             index_color = random.randrange(1, self.__max_color + 1)
-            while index_color in self.__code:
-                index_color = random.randrange(1, self.__max_color)
+            if self.__game_mode == "easy":
+                while color_list[index_color] in self.__code:
+                    index_color = random.randrange(1, self.__max_color + 1)
             self.__code.append(color_list[index_color])
         
         print(f"The secret code is {self.__code}")
@@ -77,6 +78,12 @@ class Game:
         if good_positions == self.__combination_nb:
             return True
         return False
+
+    def easy_game_rules(self):
+        self.__game_mode = "easy"
+        self.__max_attempt = 10
+        self.__max_color = 6
+        self.__combination_nb = 4
 
     def normal_game_rules(self):
         self.__game_mode = "normal"

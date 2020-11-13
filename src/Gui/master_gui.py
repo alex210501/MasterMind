@@ -31,6 +31,7 @@ class MasterGui(App, StartGui, GameGui, OptionsGui):
         self.options_switch = None
         self.game_switch = None
         self.validate_combination = None
+        self.prepare_easy_game = None
         self.prepare_normal_game = None
         self.prepare_super_game = None
 
@@ -115,6 +116,13 @@ class MasterGui(App, StartGui, GameGui, OptionsGui):
         play_again_button.bind(on_release=popup.dismiss)
 
         popup.open()
+
+    def make_easy_game(self, *value):
+        if self.prepare_easy_game is not None:
+            self.prepare_easy_game()
+
+        # Same display than the normal game
+        self.normal_game()
 
     def make_normal_game(self, *value):
         if self.prepare_normal_game is not None:
