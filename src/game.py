@@ -3,6 +3,7 @@ import random
 class Game:
     def __init__(self):
         self.__pseudo = ""
+        self.__score = 10
         self.__max_attempt = 10
         self.__max_color = 6
         self.__combination_nb = 4 # Column number
@@ -49,21 +50,19 @@ class Game:
                 good_position += 1
                 combination_copy.remove(color)
                 code.remove(color)
-                print(code)
-        print("break")
-        print(code)
+        
         # Second, check the color
         for color in combination_copy[:]:
             if color in code:
                 combination_copy.remove(color)
                 code.remove(color)
                 color_present += 1
-                print(code)
 
         return good_position, color_present
 
     def is_game_ended(self, attempt_nb, good_positions):
         if attempt_nb == self.__max_attempt or good_positions == self.__combination_nb:
+            self.__score = self.__max_attempt - attempt_nb
             return True
         return False
 
@@ -87,6 +86,10 @@ class Game:
     @property
     def game_mode(self):
         return self.__game_mode
+
+    @property
+    def score(self):
+        return self.__score
 
 if __name__ == "__main__":
     my_game = Game()

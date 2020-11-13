@@ -36,6 +36,7 @@ color_image = {"No color": red_cross_img, "red": red_circle_img, "blue": blue_ci
 
 class GameGui:
     def __init__(self):
+        self.__blocking_mode = False
         self.__grid_rows = 10
         self.__grid_columns = 4
         self.__best_pseudo = ""
@@ -149,12 +150,19 @@ class GameGui:
         self.__pseudo_output.text = pseudo_format.format(pseudo)
 
     def change_boll_color(self, source, color):
+        if self.__blocking_mode:
+            return
+
         index = self.__color_spinner.index(source)
 
         if index <= (len(self.__master_boll[self.__current_attempt]) - 1):
             self.__master_boll[self.__current_attempt][index].source = color_image[color]
 
     def validate(self, source):
+        if self.__blocking_mode:
+            self.popup_windows("The game is ended ! Restart a new one...")
+            return
+
         if not self.is_boll_completed():
             return
 
@@ -232,3 +240,12 @@ class GameGui:
     @property
     def current_attempt(self):
         return self.__current_attempt + 1
+    
+    @property
+    def blocking_mode(self):
+        return self.__blocking_mode
+
+    @blocking_mode.setter
+    def blocking_mode(self, mode):
+        # mode = True if mode != 0 else False
+        self.__blocking_mode = mode
