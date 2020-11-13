@@ -23,23 +23,27 @@ class StartGui():
                                     spacing=30, size_hint=(1, 1))
         self.__pseudo_input = TextInput(
             multiline=False, size_hint=(1, .8), pos_hint={'y': 0})
-        self.__button_start = Button(text='MasterMind', size_hint=(0.6, 0.5),
-                                        pos_hint={'y': 0.4})
-        self.__button_options = Button(text='Options',size_hint=(0.6, 0.5),
-                                        pos_hint={'y': 0.4})
-        self.__button_start.bind(on_press=self.switch_to_game)
-        self.__button_options.bind(on_press=self.switch_to_option)
+        __button_start = Button(text='MasterMind', size_hint=(0.6, 0.5),
+                                pos_hint={'y': 0.4})
+        __button_options = Button(text='Options',size_hint=(0.6, 0.5),
+                                    pos_hint={'y': 0.4})
+        __button_start.bind(on_press=self.switch_to_game)
+        __button_options.bind(on_press=self.switch_to_option)
+        name_label = Label(text="Borbolla Alejandro", font_size=12, size_hint=(1, .1),
+                           halign="right", pos_hint={'x': .42})
 
         pseudo_layout.add_widget(Label(text="Pseudo : ", size_hint=(1, 1)))
         pseudo_layout.add_widget(self.__pseudo_input)
 
-        button_layout.add_widget(self.__button_start)
-        button_layout.add_widget(self.__button_options)
+        button_layout.add_widget(__button_start)
+        button_layout.add_widget(__button_options)
 
         box.add_widget(title)
         box.add_widget(pseudo_layout)
         box.add_widget(self.start_game_type())
         box.add_widget(button_layout)
+        box.add_widget(name_label)
+
         screen.add_widget(box)
 
         return screen

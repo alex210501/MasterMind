@@ -120,5 +120,46 @@
             ]
         }
     },
-    "super": {}
+    "super": {
+        "Test": {
+            "score": 7,
+            "game": [
+                [
+                    "black",
+                    "purple",
+                    "orange",
+                    "white",
+                    "orange"
+                ],
+                [
+                    "purple",
+                    "white",
+                    "yellow",
+                    "green",
+                    "orange"
+                ],
+                [
+                    "yellow",
+                    "red",
+                    "green",
+                    "orange",
+                    "black"
+                ],
+                [
+                    "white",
+                    "purple",
+                    "green",
+                    "orange",
+                    "orange"
+                ],
+                [
+                    "red",
+                    "green",
+                    "orange",
+                    "black",
+                    "orange"
+                ]
+            ]
+        }
+    }
 }
