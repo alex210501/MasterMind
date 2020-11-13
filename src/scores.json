@@ -77,6 +77,48 @@
             ]
         }
     },
-    "normal": {},
+    "normal": {
+        "Test": {
+            "score": 4,
+            "game": [
+                [
+                    "black",
+                    "white",
+                    "green",
+                    "yellow"
+                ],
+                [
+                    "black",
+                    "yellow",
+                    "yellow",
+                    "red"
+                ],
+                [
+                    "green",
+                    "red",
+                    "white",
+                    "blue"
+                ],
+                [
+                    "black",
+                    "green",
+                    "green",
+                    "yellow"
+                ],
+                [
+                    "yellow",
+                    "green",
+                    "white",
+                    "white"
+                ],
+                [
+                    "red",
+                    "red",
+                    "yellow",
+                    "white"
+                ]
+            ]
+        }
+    },
     "super": {}
 }
