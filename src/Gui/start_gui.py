@@ -4,6 +4,8 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.checkbox import CheckBox
 from kivy.uix.screenmanager import Screen
+from .img_button import ImgButton
+from .png import *
 
 class StartGui():
     def __init__(self):
@@ -21,12 +23,16 @@ class StartGui():
                                     size_hint=(1, 0.3))
         button_layout = BoxLayout(orientation="horizontal", padding=(20, 10),
                                     spacing=30, size_hint=(1, 1))
-        self.__pseudo_input = TextInput(
-            multiline=False, size_hint=(1, .8), pos_hint={'y': 0})
-        __button_start = Button(text='MasterMind', size_hint=(0.6, 0.5),
-                                pos_hint={'y': 0.4})
-        __button_options = Button(text='Options',size_hint=(0.6, 0.5),
+        self.__pseudo_input = TextInput(multiline=False, size_hint=(1, .8), 
+                                        pos_hint={'y': 0})
+        __button_start = ImgButton(source=start_img, size_hint=(0.6, 0.5),
                                     pos_hint={'y': 0.4})
+        __button_options = ImgButton(source=setting_img, size_hint=(0.6, 0.5),
+                                    pos_hint={'y': 0.4})
+        # __button_start = Button(text='Let\'s go !', size_hint=(0.6, 0.5),
+        #                         pos_hint={'y': 0.4})
+        # __button_options = Button(text='Options',size_hint=(0.6, 0.5),
+        #                             pos_hint={'y': 0.4})
         __button_start.bind(on_press=self.switch_to_game)
         __button_options.bind(on_press=self.switch_to_option)
         name_label = Label(text="Borbolla Alejandro", font_size=12, size_hint=(1, .1),

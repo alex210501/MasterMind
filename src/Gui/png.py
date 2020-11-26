@@ -3,6 +3,8 @@
 """
 
 # Declared Images
+start_img = "Pictures/start_icon.png"
+setting_img = "Pictures/setting_icon.png"
 back_menu_img = "Pictures/left_arrow.png"
 good_position_img = "Pictures/true_icon_green.png"
 good_color_img = "Pictures/true_icon_orange.png"
@@ -16,4 +18,3 @@ white_circle_img = "Pictures/white_circle.png"
 black_circle_img = "Pictures/black_circle.png"
 purple_circle_img = "Pictures/purple_circle.png"
 orange_circle_img = "Pictures/orange_circle.png"
-back_menu_img = "Pictures/left_arrow.png"

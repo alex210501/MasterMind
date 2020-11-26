@@ -54,7 +54,7 @@ class OptionsGui:
         bad_color = Image(source=wrong_proposition_img)
 
         good_position_l = Label(text="Good color at the good position")
-        good_color_l = Label(text="Good color")
+        good_color_l = Label(text="Color present")
         bad_color_l = Label(text="Color not present")
 
         gp_layout.add_widget(good_position)

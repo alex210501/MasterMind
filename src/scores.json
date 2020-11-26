@@ -128,6 +128,47 @@
                     "white"
                 ]
             ]
+        },
+        "betty": {
+            "score": 4,
+            "game": [
+                [
+                    "black",
+                    "white",
+                    "green",
+                    "yellow"
+                ],
+                [
+                    "white",
+                    "red",
+                    "blue",
+                    "black"
+                ],
+                [
+                    "black",
+                    "green",
+                    "yellow",
+                    "red"
+                ],
+                [
+                    "green",
+                    "yellow",
+                    "black",
+                    "blue"
+                ],
+                [
+                    "yellow",
+                    "green",
+                    "black",
+                    "blue"
+                ],
+                [
+                    "green",
+                    "black",
+                    "blue",
+                    "yellow"
+                ]
+            ]
         }
     },
     "normal": {
