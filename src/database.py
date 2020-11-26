@@ -1,7 +1,7 @@
 import json
 import os
 
-score_file = "src/scores.json"
+score_file = "scores.json"
 
 
 class DataBase:

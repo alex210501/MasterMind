@@ -75,11 +75,64 @@
                     "yellow"
                 ]
             ]
+        },
+        "Lisa": {
+            "score": 2,
+            "game": [
+                [
+                    "black",
+                    "white",
+                    "green",
+                    "yellow"
+                ],
+                [
+                    "white",
+                    "black",
+                    "yellow",
+                    "red"
+                ],
+                [
+                    "white",
+                    "yellow",
+                    "blue",
+                    "black"
+                ],
+                [
+                    "red",
+                    "black",
+                    "yellow",
+                    "green"
+                ],
+                [
+                    "yellow",
+                    "black",
+                    "red",
+                    "white"
+                ],
+                [
+                    "green",
+                    "black",
+                    "white",
+                    "blue"
+                ],
+                [
+                    "blue",
+                    "black",
+                    "red",
+                    "green"
+                ],
+                [
+                    "green",
+                    "red",
+                    "yellow",
+                    "white"
+                ]
+            ]
         }
     },
     "normal": {
         "Test": {
-            "score": 5,
+            "score": 4,
             "game": [
                 [
                     "black",
@@ -109,6 +162,12 @@
                     "yellow",
                     "green",
                     "white",
+                    "white"
+                ],
+                [
+                    "red",
+                    "red",
+                    "yellow",
                     "white"
                 ]
             ]
