@@ -62,6 +62,9 @@ class GameGui:
         return screen
 
     def mastermind_middle_layout(self):
+        """
+            Build the middle layout
+        """
         middle_layout = BoxLayout(orientation="horizontal", size_hint=(1, 1))
         combination_layout = BoxLayout(
             orientation="vertical", size_hint=(1, 1))
@@ -88,6 +91,9 @@ class GameGui:
         return middle_layout
 
     def mastermind_bottom_layout(self):
+        """
+            Build the bottom layout
+        """
         bottom_layout = BoxLayout(orientation="horizontal", size_hint=(1, 0.1))
 
         for column in range(5):
@@ -107,6 +113,9 @@ class GameGui:
         return bottom_layout
 
     def clear_mastermind(self):
+        """
+            Clear all the widget to start a new game
+        """
         self.__master_boll = []
 
         # Remove all widget and indications
@@ -126,6 +135,9 @@ class GameGui:
         self.__current_attempt = 0
 
     def set_best_score(self, pseudo, score):
+        """
+            Set the current best score
+        """
         if pseudo != "":
             self.__best_pseudo = str(pseudo)
             self.__best_score = str(score)
@@ -133,9 +145,21 @@ class GameGui:
                                                                     self.__best_score)
 
     def set_pseudo(self, pseudo):
+        """
+            Set the current pseudo
+        """
         self.__pseudo_output.text = pseudo_format.format(pseudo)
 
     def change_boll_color(self, source, color):
+        """
+            Callback when a spinner is clicked, change a boll color
+            Parameters
+            ----------
+            source : kivy spinner
+                The caller
+            color : str
+                The color selected by the spinner
+        """
         if self.__blocking_mode:
             return
 
@@ -145,6 +169,13 @@ class GameGui:
             self.__master_boll[self.__current_attempt][index].source = color_image[color]
 
     def validate(self, source):
+        """
+            Callback when the validate button is entered
+            Parameters
+            ----------
+            source : kivy button
+                The caller
+        """
         if self.__blocking_mode:
             self.popup_windows("The game is ended ! Restart a new one...")
             return
@@ -168,6 +199,13 @@ class GameGui:
             self.__color_spinner[column].text = "No color"
 
     def is_boll_completed(self):
+        """
+            Check if all the bolls are completed
+            Generate an error popup if the bolls are uncompleted
+            Return
+            -------
+            True if completed, False otherwise
+        """
         current_boll_list = self.__master_boll[self.__current_attempt]
         for boll in current_boll_list:
             if boll.source == color_image["No color"]:
@@ -176,17 +214,30 @@ class GameGui:
         return True
 
     def get_combination(self):
+        """
+            Get the current combination entered
+            Return
+            -------
+            List with the current combination
+        """
         combination = []
 
         for column in range(self.__grid_columns):
             color = self.__color_spinner[column].text
             combination.append(color)
 
-        print(f"Combination tested : {combination}")
-
         return combination[:]
 
     def set_advice(self, good_position, good_color):
+        """
+            Set the current advices on the screen
+            Parameters
+            ----------
+            good_positions : int
+                Color at the good positions
+            good_color : int
+                Color presents
+        """
         wrong_proposition = self.__grid_columns - good_position - good_color
 
         for _ in range(good_position):
@@ -202,6 +253,9 @@ class GameGui:
                 Image(source=wrong_proposition_img))
 
     def normal_game(self):
+        """
+            Prepare the screen for a normal game
+        """
         self.__grid_columns = 4
         self.__grid_rows = 10
 
@@ -213,6 +267,9 @@ class GameGui:
             self.__color_spinner[column].values = color_list[:7]
     
     def super_game(self):
+        """
+            Prepare the screen for a super game
+        """
         self.__grid_columns = 5
         self.__grid_rows = 12
 
@@ -225,12 +282,31 @@ class GameGui:
 
     @property
     def current_attempt(self):
+        """
+            Accessor for the current attempt
+            Return
+            -------
+            The current attempt
+        """
         return self.__current_attempt + 1
     
     @property
     def blocking_mode(self):
+        """
+            Accessor for the blocking mode verification
+            Return
+            -------
+            Bloking mode enabled 
+        """
         return self.__blocking_mode
 
     @blocking_mode.setter
     def blocking_mode(self, mode):
+        """
+            Setter for the blocking mode
+            Parameters
+            ----------
+            mode : bool
+                The current blocking mode
+        """
         self.__blocking_mode = mode

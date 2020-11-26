@@ -40,6 +40,9 @@ class OptionsGui:
         return screen
 
     def build_legend_layout(self):
+        """
+            Build all the legend widets
+        """
         legend_layout = BoxLayout(orientation="vertical")
 
         gp_layout = BoxLayout(orientation="horizontal", padding=(10, 20))

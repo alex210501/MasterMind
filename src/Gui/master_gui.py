@@ -49,6 +49,13 @@ class MasterGui(App, StartGui, GameGui, OptionsGui):
         return self.__manager
 
     def switch_to_option(self, source):
+        """
+            Prepare the gui to switch to the options screen
+            Parameters
+            ----------
+            source : kivy widget
+                The source of the callback
+        """
         if self.options_switch is not None:
             self.options_switch()
         
@@ -56,6 +63,13 @@ class MasterGui(App, StartGui, GameGui, OptionsGui):
         self.__manager.current = "options"
 
     def switch_to_start(self, source):
+        """
+            Prepare the gui to switch to the start screen
+            Parameters
+            ----------
+            source : kivy widget
+                The source of the callback
+        """
         if self.start_switch is not None:
             self.start_switch()
 
@@ -63,6 +77,13 @@ class MasterGui(App, StartGui, GameGui, OptionsGui):
         self.__manager.current = "start"
 
     def switch_to_game(self, source):
+        """
+            Prepare the gui to switch to the game screen
+            Parameters
+            ----------
+            source : kivy widget
+                The source of the callback
+        """
         if self.game_switch is not None:
             self.game_switch()
 
@@ -72,6 +93,13 @@ class MasterGui(App, StartGui, GameGui, OptionsGui):
         self.set_pseudo(self.pseudo)
 
     def popup_windows(self, message):
+        """
+            Create a popup windows with a error message
+            Parameters
+            ----------
+            message : str
+                The message to display in the popup
+        """
         box = BoxLayout(orientation="vertical")
 
         error_message = Label(text=message)
@@ -88,6 +116,13 @@ class MasterGui(App, StartGui, GameGui, OptionsGui):
         popup.open()
 
     def end_game_popup(self, is_won):
+        """
+            Popup displayed when the game is ended
+            Parameters
+            ----------
+            is_won : bool
+                True if the game is won, False otherwise
+        """
         if is_won:
             text_to_disp = winning_text.format(self.current_attempt)
         else:
@@ -118,6 +153,13 @@ class MasterGui(App, StartGui, GameGui, OptionsGui):
         popup.open()
 
     def make_easy_game(self, *value):
+        """
+            Prepare the game screen for an easy game
+            Parameters
+            ----------
+            value : list
+                Value entered by the caller widget
+        """
         if self.prepare_easy_game is not None:
             self.prepare_easy_game()
 
@@ -125,12 +167,26 @@ class MasterGui(App, StartGui, GameGui, OptionsGui):
         self.normal_game()
 
     def make_normal_game(self, *value):
+        """
+            Prepare the game screen for an normal game
+            Parameters
+            ----------
+            value : list
+                Value entered by the caller widget
+        """
         if self.prepare_normal_game is not None:
             self.prepare_normal_game()
 
         self.normal_game()
     
     def make_super_game(self, *value):
+        """
+            Prepare the game screen for an normal game
+            Parameters
+            ----------
+            value : list
+                Value entered by the caller widget
+        """
         if self.prepare_super_game is not None:
             self.prepare_super_game()
 

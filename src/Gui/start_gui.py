@@ -49,6 +49,9 @@ class StartGui():
         return screen
 
     def start_game_type(self):
+        """
+            Build the combobox to choose the game difficulty
+        """
         type_game_layout = BoxLayout(orientation="horizontal", padding=(20, 0))
 
         checkbox_easy = CheckBox(group="type", size_hint=(.1, 1))
@@ -73,11 +76,14 @@ class StartGui():
 
         return type_game_layout
 
-    def default_checkbox_callback(self, src):
-        print(f"The checkbox {src} is active")
-
     @property
     def pseudo(self):
+        """
+            Accessor for the current score entered
+            Return
+            -------
+            The current pseudo
+        """
         if self.__pseudo_input.text == '':
             return "/"
         return self.__pseudo_input.text

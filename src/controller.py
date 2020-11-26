@@ -30,7 +30,7 @@ class Controller():
 
     def enter_game(self):
         """
-            Prepare the menu to start the game
+            Prepare the menu to start a new game
         """
         self.prepare_new_game()
         self.__game.pseudo = self.__gui.pseudo

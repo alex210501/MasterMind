@@ -1,3 +1,7 @@
+"""
+	File with all the declared images
+"""
+
 # Declared Images
 back_menu_img = "Pictures/left_arrow.png"
 good_position_img = "Pictures/true_icon_green.png"
