@@ -4,7 +4,7 @@ from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen
 from kivy.uix.image import Image
 from .img_button import ImgButton
-from .png import *
+from .img import *
 
 rules_txt = "The Mastermind is a code-breaking game. The objective is to find\n \
             a hidden combination of colors at specific positions."

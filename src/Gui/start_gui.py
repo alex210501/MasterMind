@@ -5,7 +5,7 @@ from kivy.uix.button import Button
 from kivy.uix.checkbox import CheckBox
 from kivy.uix.screenmanager import Screen
 from .img_button import ImgButton
-from .png import *
+from .img import *
 
 class StartGui():
     def __init__(self):
@@ -21,44 +21,58 @@ class StartGui():
                       font_size=30, pos_hint={'y': 0.3})
         pseudo_layout = BoxLayout(orientation="horizontal", padding=(10, 10, 10, 10),
                                     size_hint=(1, 0.3))
-        button_layout = BoxLayout(orientation="horizontal", padding=(20, 10),
-                                    spacing=30, size_hint=(1, 1))
-        self.__pseudo_input = TextInput(multiline=False, size_hint=(1, .8), 
-                                        pos_hint={'y': 0})
-        __button_start = ImgButton(source=start_img, size_hint=(0.6, 0.5),
-                                    pos_hint={'y': 0.4})
-        __button_options = ImgButton(source=setting_img, size_hint=(0.6, 0.5),
-                                    pos_hint={'y': 0.4})
-        # __button_start = Button(text='Let\'s go !', size_hint=(0.6, 0.5),
-        #                         pos_hint={'y': 0.4})
-        # __button_options = Button(text='Options',size_hint=(0.6, 0.5),
-        #                             pos_hint={'y': 0.4})
-        __button_start.bind(on_press=self.switch_to_game)
-        __button_options.bind(on_press=self.switch_to_option)
+        self.__pseudo_input = TextInput(multiline=False, size_hint=(1, .8))
         name_label = Label(text="Borbolla Alejandro", font_size=12, size_hint=(1, .1),
                            halign="right", pos_hint={'x': .42})
 
         pseudo_layout.add_widget(Label(text="Pseudo : ", size_hint=(1, 1)))
         pseudo_layout.add_widget(self.__pseudo_input)
 
-        button_layout.add_widget(__button_start)
-        button_layout.add_widget(__button_options)
 
         box.add_widget(title)
         box.add_widget(pseudo_layout)
         box.add_widget(self.start_game_type())
-        box.add_widget(button_layout)
+        box.add_widget(self.menu_layout())
         box.add_widget(name_label)
 
         screen.add_widget(box)
 
         return screen
 
+    def menu_layout(self):
+        change_menu_layout = BoxLayout(orientation="vertical", padding=(20, 10),
+                                       spacing=30, size_hint=(1, 1))
+        label_layout = BoxLayout(orientation="horizontal", padding=(20, 10),
+                                    spacing=30, size_hint=(1, 0.4))
+        button_layout = BoxLayout(orientation="horizontal", padding=(20, 10),
+                                    spacing=30, size_hint=(1, 1))
+
+        play_label = Label(text="Play", font_size=20, size_hint=(0.6, 1))
+        setting_label = Label(text="Setting", font_size=20, size_hint=(0.6, 1))
+
+        button_start = ImgButton(source=start_img, size_hint=(0.6, 1),
+                                pos_hint={'y': 0.4})
+        button_options = ImgButton(source=setting_img, size_hint=(0.6, 1),
+                                    pos_hint={'y': 0.4})
+        button_start.bind(on_press=self.switch_to_game)
+        button_options.bind(on_press=self.switch_to_option)
+
+        label_layout.add_widget(play_label)
+        label_layout.add_widget(setting_label)
+        button_layout.add_widget(button_start)
+        button_layout.add_widget(button_options)
+
+        change_menu_layout.add_widget(label_layout)
+        change_menu_layout.add_widget(button_layout)
+
+        return change_menu_layout
+
     def start_game_type(self):
         """
             Build the combobox to choose the game difficulty
         """
-        type_game_layout = BoxLayout(orientation="horizontal", padding=(20, 0))
+        type_game_layout = BoxLayout(orientation="horizontal",
+                                    padding=(20, 0), size_hint=(1, .7))
 
         checkbox_easy = CheckBox(group="type", size_hint=(.1, 1))
         checkbox_normal = CheckBox(group="type", size_hint=(.1, 1),

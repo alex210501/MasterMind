@@ -9,7 +9,7 @@ from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.spinner import Spinner
 from kivy.uix.popup import Popup
 from .img_button import ImgButton
-from .png import *
+from .img import *
 
 pseudo_format = "Pseudo : {}"
 best_score_format = "Best score : {}({})"
@@ -127,10 +127,8 @@ class GameGui:
         # Create master button
         for column in range(self.__grid_columns):
             self.__color_spinner[column].text = "No color"
-            self.__master_boll[0].append(
-                Image(source=color_image['No color']))
-            self.__mastermind_layout[0].add_widget(
-                self.__master_boll[0][column])
+            self.__master_boll[0].append(Image(source=color_image['No color']))
+            self.__mastermind_layout[0].add_widget(self.__master_boll[0][column])
               
         self.__current_attempt = 0
 

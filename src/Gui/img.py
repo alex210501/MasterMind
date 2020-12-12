@@ -3,6 +3,8 @@
 """
 
 # Declared Images
+winner_img = "Pictures/winner_img.jpg"
+loser_img = "Pictures/loser_img.jpg"
 start_img = "Pictures/start_icon.png"
 setting_img = "Pictures/setting_icon.png"
 back_menu_img = "Pictures/left_arrow.png"

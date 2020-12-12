@@ -15,7 +15,7 @@ from .start_gui import StartGui
 from .game_gui import GameGui
 from .img_button import ImgButton
 from .options_gui import OptionsGui
-from .png import *
+from .img import *
 
 winning_text = "You win in {} attemps !"
 loser_text = "Game over !"
@@ -125,12 +125,16 @@ class MasterGui(App, StartGui, GameGui, OptionsGui):
         """
         if is_won:
             text_to_disp = winning_text.format(self.current_attempt)
+            src_img = winner_img
         else:
             text_to_disp = loser_text
+            src_img = loser_img
         
         box = BoxLayout(orientation="vertical")
-        button_layout = BoxLayout(orientation="horizontal", size_hint=(1, .2))
-        end_message = Label(text=text_to_disp)
+        button_layout = BoxLayout(orientation="horizontal", size_hint=(1, .2),
+                                  padding=(0, 1))
+        end_img = Image(source=src_img)
+        end_message = Label(text=text_to_disp, size_hint=(1, .2))
         home_button = Button(text="Home")
         play_again_button = Button(text="Play Again")
 
@@ -138,6 +142,7 @@ class MasterGui(App, StartGui, GameGui, OptionsGui):
         button_layout.add_widget(home_button)
 
         box.add_widget(end_message)
+        box.add_widget(end_img)
         box.add_widget(button_layout)
 
         popup = Popup(title='End game', content=box,
