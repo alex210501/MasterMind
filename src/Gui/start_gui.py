@@ -19,9 +19,9 @@ class StartGui():
         box = BoxLayout(orientation="vertical")
         title = Label(text="My MasterMind Game",
                       font_size=30, pos_hint={'y': 0.3})
-        pseudo_layout = BoxLayout(orientation="horizontal", padding=(10, 10, 10, 10),
+        pseudo_layout = BoxLayout(orientation="horizontal", padding=(50, 10, 100, 10),
                                     size_hint=(1, 0.3))
-        self.__pseudo_input = TextInput(multiline=False, size_hint=(1, .8))
+        self.__pseudo_input = TextInput(multiline=False, size_hint=(1, .8), hint_text='Buddy')
         name_label = Label(text="Borbolla Alejandro", font_size=12, size_hint=(1, .1),
                            halign="right", pos_hint={'x': .42})
 
